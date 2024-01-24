@@ -154,7 +154,6 @@ def get_rows_thread():
             print(f"An error occurred: {e}")
             messagebox.showerror("ERROR", f"An error occurred: {e}")
 
-    # Run the callback in the main thread
     root.after(0, callback)
     
 #Function to browse local files with specified initial directory
@@ -239,12 +238,11 @@ def insertintoTable(alist, worksheet, table, wb):
         # Update the table reference to include new rows
         tbl.ref = f"{get_column_letter(coord[0])}{coord[1]}:{get_column_letter(coord[2])}{coord[3]}"
 
-        # Align cells if necessary
+        # Align cells
         for col in ws.iter_cols(min_row=2, max_row=ws.max_row, min_col=1, max_col=len(alist[0])):
             for cell in col:
                 cell.alignment = Alignment(horizontal='right')
 
-        # Consider whether to save the workbook here or outside this function
         wb.save(filepath)
 
     except Exception as e:
@@ -270,7 +268,6 @@ def getentryIncoming():
         if getemptylistItems(data, max_empties) == True:
             messagebox.showerror("ERROR", "Input fields are empty")
         else:
-            # Ensure that 'wb' is the loaded workbook object
             global wb
             inserting_table_data_thread(data, list_of_sheets[0], list_of_tables[0], wb)
             table_data = fetchfiveRowsIncoming(list_of_sheets[0], list_of_tables[0])
@@ -298,7 +295,6 @@ def getentryOutgoing():
         list_of_sheets = getSheets()
         list_of_tables = getTables()
 
-        # Use the global workbook variable 'wb'
         global wb
         work_sheet = wb[list_of_sheets[1]]
         tab = work_sheet.tables[list_of_tables[1]]
